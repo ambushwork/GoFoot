@@ -6,7 +6,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.netatmo.ylu.gofoot.livedata.CountriesLiveData
-import com.netatmo.ylu.gofoot.ui.LeaguesActivity
+import com.netatmo.ylu.gofoot.ui.fixtures.FixturesActivity
+import com.netatmo.ylu.gofoot.ui.league.LeaguesActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +23,11 @@ class MainActivity : AppCompatActivity() {
         buttonLeague.setOnClickListener {
             LeaguesActivity.start(this)
         }
+
+        findViewById<Button>(R.id.btn_fixtures).setOnClickListener {
+            FixturesActivity.start(this@MainActivity)
+        }
+
         countriesLiveData = ViewModelProvider(this).get(CountriesLiveData::class.java)
         countriesLiveData.countryLiveData.observe(this,
             { t ->

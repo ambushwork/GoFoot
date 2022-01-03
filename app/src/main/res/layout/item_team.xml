@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_height="@dimen/team_logo_size"
+        android:layout_width="@dimen/team_logo_size"
+        android:id="@+id/item_team_iv_logo"
+        android:padding="@dimen/default_padding_half"
+        android:layout_weight="0" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/item_team_tv_name"
+        android:layout_weight="1" />
+
+</merge>

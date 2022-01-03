@@ -1,4 +1,4 @@
-package com.netatmo.ylu.gofoot.ui
+package com.netatmo.ylu.gofoot.ui.league
 
 import android.content.Context
 import android.util.AttributeSet
@@ -19,6 +19,8 @@ class LeagueItemView @JvmOverloads constructor(
 
     private val tvName: TextView
     private val logoIv: ImageView
+    var listener: Listener? = null
+    private var league: League? = null
 
     init {
         inflate(context, R.layout.item_league, this)
@@ -28,12 +30,21 @@ class LeagueItemView @JvmOverloads constructor(
         gravity = Gravity.CENTER_VERTICAL
         tvName = findViewById(R.id.item_league_tv_name)
         logoIv = findViewById(R.id.item_league_iv_logo)
+        setOnClickListener {
+            league?.let {
+                listener?.onItemClicked(it.id)
+            }
+        }
     }
 
     fun setData(league: League) {
+        this.league = league
         tvName.text = league.name
         Picasso.get().load(league.logo).into(logoIv)
     }
 
+    interface Listener {
+        fun onItemClicked(id: String)
+    }
 
 }
