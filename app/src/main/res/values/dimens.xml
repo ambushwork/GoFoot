@@ -4,4 +4,5 @@
     <dimen name="default_padding">16dp</dimen>
     <dimen name="league_logo_size">48dp</dimen>
     <dimen name="team_logo_size">48dp</dimen>
+    <dimen name="fixture_team_logo_size">60dp</dimen>
 </resources>

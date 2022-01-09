@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.netatmo.ylu.gofoot.R
-import com.netatmo.ylu.gofoot.livedata.LeagueLiveData
+import com.netatmo.ylu.gofoot.repository.LeagueLiveData
 import com.netatmo.ylu.gofoot.ui.team.TeamsActivity
 
 class LeaguesActivity : AppCompatActivity() {

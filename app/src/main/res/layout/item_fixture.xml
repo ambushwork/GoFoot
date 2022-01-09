@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,32 +12,85 @@
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp">
 
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:padding="@dimen/default_padding"
-            android:gravity="center"
-            android:weightSum="3"
-            android:orientation="horizontal">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
 
             <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="@dimen/fixture_team_logo_size"
+                android:layout_height="@dimen/fixture_team_logo_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/item_fixture_goals_tv"
+                tools:src="@drawable/ic_launcher_background"
                 android:id="@+id/item_fixture_home_iv" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/item_fixture_home_name_tv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:padding="@dimen/default_padding_half"
+                tools:text="Man. United"
+                app:layout_constraintTop_toBottomOf="@id/item_fixture_home_iv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/item_fixture_home_iv"
+                app:layout_constraintRight_toRightOf="@id/item_fixture_home_iv" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/item_fixture_home_iv"
+                app:layout_constraintRight_toLeftOf="@id/item_fixture_away_iv"
+                tools:text="1 - 2"
                 android:id="@+id/item_fixture_goals_tv"
                 android:padding="@dimen/default_padding" />
 
-            <ImageView
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                app:layout_constraintTop_toBottomOf="@id/item_fixture_goals_tv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="45:36"
+                android:id="@+id/item_fixture_time_tv"
+                android:padding="@dimen/default_padding" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/item_fixture_goals_tv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="Premier league"
+                android:id="@+id/item_fixture_league_tv"
+                android:padding="@dimen/default_padding" />
+
+            <ImageView
+                android:layout_width="@dimen/fixture_team_logo_size"
+                android:layout_height="@dimen/fixture_team_logo_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/item_fixture_goals_tv"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:src="@drawable/ic_launcher_background"
                 android:id="@+id/item_fixture_away_iv" />
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/item_fixture_away_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_padding_half"
+                tools:text="Chelsea"
+                app:layout_constraintTop_toBottomOf="@id/item_fixture_away_iv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/item_fixture_away_iv"
+                app:layout_constraintRight_toRightOf="@id/item_fixture_away_iv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </merge>

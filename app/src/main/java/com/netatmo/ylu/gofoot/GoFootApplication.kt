@@ -3,11 +3,18 @@ package com.netatmo.ylu.gofoot
 import android.app.ActivityManager
 import android.app.Application
 import android.util.Log
+import com.netatmo.ylu.gofoot.repository.TeamRepository
+import com.netatmo.ylu.gofoot.room.TeamRoomDatabase
 import com.squareup.picasso.LruCache
 import com.squareup.picasso.Picasso
 
 
 class GoFootApplication : Application() {
+
+    //FIXME: use hilt injection
+    val database by lazy { TeamRoomDatabase.getDatabase(this) }
+    val repository by lazy { TeamRepository(database.teamDao()) }
+
     override fun onCreate() {
         super.onCreate()
         Picasso.setSingletonInstance(getCustomPicasso())

@@ -2,7 +2,6 @@ package com.netatmo.ylu.gofoot.retrofit
 
 import com.netatmo.ylu.gofoot.constants.*
 import com.netatmo.ylu.gofoot.model.*
-import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,40 +22,18 @@ object RequestClient {
         service = retrofit.create(FootApiService::class.java)
     }
 
-    fun getCountry(name: String, callback: Callback<Body<Country>>) {
-        val call = service.getCountries(headers, name)
-        call.enqueue(callback)
-    }
+    suspend fun getCountry(name: String): Body<Country> = service.getCountries(headers, name)
 
-    fun getLeague(id: String? = null, callback: Callback<Body<LeagueResponse>>) {
-        val call = service.getLeagues(headers, id)
-        call.enqueue(callback)
-    }
+    suspend fun getAllLeague(): Body<LeagueResponse> = service.getLeagues(headers)
 
-    fun getTeam(
-        id: String,
-        callback: Callback<Body<TeamResponse>>
-    ) {
-        val call = service.getTeams(headers, id)
-        call.enqueue(callback)
-    }
+    suspend fun getLeague(id: String? = null): Body<LeagueResponse> =
+        service.getLeagues(headers, id)
 
-    fun getTeamByLeagueSeason(
-        league: String,
-        season: Int,
-        callback: Callback<Body<TeamResponse>>
-    ) {
-        val call = service.getTeams(
-            headers,
-            league = league,
-            season = season
-        )
-        call.enqueue(callback)
-    }
+    suspend fun getTeam(id: String): Body<TeamInfo> = service.getTeams(headers, id)
 
-    fun getLiveFixtures(callback: Callback<Body<FixtureResponse>>) {
-        val call = service.getFixturesByLive(headers, "all")
-        call.enqueue(callback)
-    }
+    suspend fun getTeamByLeagueSeason(league: String, season: Int): Body<TeamInfo> =
+        service.getTeams(headers, league = league, season = season)
+
+    suspend fun getLiveFixtures(): Body<FixtureResponse> = service.getFixturesByLive(headers, "all")
 
 }

@@ -2,11 +2,11 @@ package com.netatmo.ylu.gofoot.ui.team
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.netatmo.ylu.gofoot.model.Team
+import com.netatmo.ylu.gofoot.model.TeamInfo
 
 internal class TeamsAdapter : RecyclerView.Adapter<TeamsAdapter.TeamHolder>() {
 
-    var list: List<Team> = arrayListOf()
+    var list: List<TeamInfo> = arrayListOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -18,7 +18,7 @@ internal class TeamsAdapter : RecyclerView.Adapter<TeamsAdapter.TeamHolder>() {
     }
 
     override fun onBindViewHolder(holder: TeamHolder, position: Int) {
-        holder.item.setData(list[position])
+        holder.item.setData(list[position].team)
     }
 
     override fun getItemCount(): Int = list.size

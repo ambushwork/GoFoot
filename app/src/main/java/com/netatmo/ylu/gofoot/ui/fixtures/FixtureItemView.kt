@@ -20,6 +20,10 @@ class FixtureItemView @JvmOverloads constructor(
     private val tvGoals: TextView
     private val homeIcon: ImageView
     private val awayIcon: ImageView
+    private val tvHomeName: TextView
+    private val tvAwayName: TextView
+    private val tvTime: TextView
+    private val tvLeague: TextView
     var listener: Listener? = null
     private var fixture: FixtureResponse? = null
 
@@ -29,6 +33,10 @@ class FixtureItemView @JvmOverloads constructor(
         tvGoals = findViewById(R.id.item_fixture_goals_tv)
         homeIcon = findViewById(R.id.item_fixture_home_iv)
         awayIcon = findViewById(R.id.item_fixture_away_iv)
+        tvAwayName = findViewById(R.id.item_fixture_away_name_tv)
+        tvHomeName = findViewById(R.id.item_fixture_home_name_tv)
+        tvTime = findViewById(R.id.item_fixture_time_tv)
+        tvLeague = findViewById(R.id.item_fixture_league_tv)
         setPadding(16)
         setOnClickListener {
             fixture?.let {
@@ -42,6 +50,10 @@ class FixtureItemView @JvmOverloads constructor(
         tvGoals.text = String.format("${fixture.goals.home} - ${fixture.goals.away}")
         Picasso.get().load(fixture.fixtureTeams.away.logo).into(awayIcon)
         Picasso.get().load(fixture.fixtureTeams.home.logo).into(homeIcon)
+        tvHomeName.text = fixture.fixtureTeams.home.name
+        tvAwayName.text = fixture.fixtureTeams.away.name
+        tvTime.text = fixture.fixtures.status.elapsed.toString()
+        tvLeague.text = fixture.league.name
     }
 
     interface Listener {

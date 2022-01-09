@@ -19,6 +19,14 @@ class TeamItemView @JvmOverloads constructor(
 
     private val tvName: TextView
     private val logoIv: ImageView
+    private var team: Team? = null
+        set(value) {
+            value?.let {
+                tvName.text = it.name
+                Picasso.get().load(it.logo).into(logoIv)
+            }
+            field = value
+        }
 
     init {
         inflate(context, R.layout.item_team, this)
@@ -28,6 +36,11 @@ class TeamItemView @JvmOverloads constructor(
         gravity = Gravity.CENTER_VERTICAL
         tvName = findViewById(R.id.item_team_tv_name)
         logoIv = findViewById(R.id.item_team_iv_logo)
+        setOnClickListener {
+            team?.let {
+                TeamInformationActivity.start(context, it.id)
+            }
+        }
     }
 
     fun setData(team: Team) {

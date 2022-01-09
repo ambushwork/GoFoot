@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.netatmo.ylu.gofoot.R
-import com.netatmo.ylu.gofoot.livedata.FixturesLiveData
+import com.netatmo.ylu.gofoot.repository.FixturesViewModel
 
 class FixturesActivity : AppCompatActivity() {
 
@@ -21,7 +21,7 @@ class FixturesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fixtures)
-        val fixtureLiveData = ViewModelProvider(this).get(FixturesLiveData::class.java)
+        val fixtureLiveData = ViewModelProvider(this).get(FixturesViewModel::class.java)
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_fixtures)
         val adapter = FixturesAdapter().apply {
             listener = object : FixturesAdapter.Listener {

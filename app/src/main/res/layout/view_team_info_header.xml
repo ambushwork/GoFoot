@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@android:color/holo_blue_dark"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/view_team_info_header_logo_iv"
+        tools:src="@drawable/ic_launcher_background"
+        android:layout_margin="@dimen/default_padding"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/view_team_info_header_name_tv"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        tools:text="Liverpool"
+        app:layout_constraintLeft_toRightOf="@id/view_team_info_header_logo_iv"
+        app:layout_constraintTop_toTopOf="@id/view_team_info_header_logo_iv"
+        android:layout_marginStart="@dimen/default_padding"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/view_team_info_header_venue_tv"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        tools:text="Anfield"
+        app:layout_constraintLeft_toRightOf="@id/view_team_info_header_logo_iv"
+        app:layout_constraintBottom_toBottomOf="@id/view_team_info_header_logo_iv"
+        android:layout_marginStart="@dimen/default_padding"
+        android:layout_marginTop="@dimen/default_padding"
+        android:textColor="@color/white" />
+
+</merge>

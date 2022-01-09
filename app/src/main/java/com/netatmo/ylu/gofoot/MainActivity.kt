@@ -5,13 +5,13 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.netatmo.ylu.gofoot.livedata.CountriesLiveData
+import com.netatmo.ylu.gofoot.repository.CountriesViewModel
 import com.netatmo.ylu.gofoot.ui.fixtures.FixturesActivity
 import com.netatmo.ylu.gofoot.ui.league.LeaguesActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var countriesLiveData: CountriesLiveData
+    private lateinit var countriesViewModel: CountriesViewModel
     private lateinit var textView: TextView
     private lateinit var buttonLeague: Button
 
@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
             FixturesActivity.start(this@MainActivity)
         }
 
-        countriesLiveData = ViewModelProvider(this).get(CountriesLiveData::class.java)
-        countriesLiveData.countryLiveData.observe(this,
+        countriesViewModel = ViewModelProvider(this).get(CountriesViewModel::class.java)
+        countriesViewModel.countryLiveData.observe(this,
             { t ->
                 t?.firstOrNull()?.name?.let {
                     textView.text = it

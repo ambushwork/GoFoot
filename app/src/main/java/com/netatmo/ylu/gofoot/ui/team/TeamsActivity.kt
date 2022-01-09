@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.netatmo.ylu.gofoot.R
-import com.netatmo.ylu.gofoot.livedata.TeamsLiveData
+import com.netatmo.ylu.gofoot.repository.TeamRepository
+import com.netatmo.ylu.gofoot.repository.TeamsViewModel
+import com.netatmo.ylu.gofoot.room.TeamRoomDatabase
 
 class TeamsActivity : AppCompatActivity() {
 
@@ -27,15 +29,16 @@ class TeamsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teams)
         val leagueId = intent.extras?.getString(BUNDLE_LEAGUE_ID)
-        val leagueLiveData = ViewModelProvider(this).get(TeamsLiveData::class.java)
+        val repo = TeamRepository(TeamRoomDatabase.getDatabase(this).teamDao())
+        val viewModel =
+            ViewModelProvider(this, TeamsViewModel.FACTORY(repo))[TeamsViewModel::class.java]
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_teams)
         val adapter = TeamsAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-        leagueLiveData.liveData.observe(this, { t -> adapter.list = t })
+        viewModel.teams.observe(this, { t -> adapter.list = t })
         leagueId?.let {
-            leagueLiveData.update(it, 2021)
+            viewModel.update(it, 2021)
         }
-
     }
 }
