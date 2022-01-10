@@ -38,7 +38,7 @@ class TeamItemView @JvmOverloads constructor(
         logoIv = findViewById(R.id.item_team_iv_logo)
         setOnClickListener {
             team?.let {
-                TeamInformationActivity.start(context, it.id)
+                TeamInformationActivity.start(context, it.teamId)
             }
         }
     }

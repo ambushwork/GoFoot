@@ -24,6 +24,6 @@ class TeamsViewModel(private val repository: TeamRepository) : ViewModel() {
 
 fun List<TeamInfo>.getTeam(id: Int): TeamInfo? {
     return this.firstOrNull {
-        it.team.id == id
+        it.team.teamId == id
     }
 }
