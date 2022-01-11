@@ -1,5 +1,6 @@
 package com.netatmo.ylu.gofoot.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.netatmo.ylu.gofoot.model.TeamInfo
@@ -13,7 +14,13 @@ class TeamsViewModel(private val repository: TeamRepository) : ViewModel() {
         val FACTORY = singleArgViewModelFactory(::TeamsViewModel)
     }
 
-    val teams = repository.allTeams
+    fun getTeamsByLeagueId(leagueId: String): LiveData<List<TeamInfo>> {
+        return repository.getTeamsByLeagueId(leagueId)
+    }
+
+    fun getTeamById(id: Int): LiveData<TeamInfo> {
+        return repository.getTeamById(id)
+    }
 
     fun update(leagueId: String, season: Int) {
         viewModelScope.launch {

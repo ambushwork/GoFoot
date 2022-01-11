@@ -17,9 +17,13 @@ interface TeamDao {
 
     @Transaction
     @Query("SELECT * FROM team_table WHERE teamId = :teamId")
-    suspend fun getTeamById(teamId: Int): TeamInfo
+    fun getTeamById(teamId: Int): LiveData<TeamInfo>
 
     @Transaction
     @Query("SELECT * FROM team_table ORDER BY name ASC")
     fun getTeamsLivedata(): LiveData<List<TeamInfo>>
+
+    @Transaction
+    @Query("SELECT * FROM team_table WHERE leagueId = :leagueId ORDER BY name ASC")
+    fun getTeamsByLeagueId(leagueId: String): LiveData<List<TeamInfo>>
 }

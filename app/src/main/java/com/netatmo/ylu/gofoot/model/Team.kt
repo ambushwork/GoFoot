@@ -12,6 +12,7 @@ data class Team(
     @SerializedName("country") val country: String,
     @SerializedName("founded") val founded: Int,
     @SerializedName("national") val national: Boolean,
-    @SerializedName("logo") val logo: String
+    @SerializedName("logo") val logo: String,
+    val leagueId: String
 ) {
 }

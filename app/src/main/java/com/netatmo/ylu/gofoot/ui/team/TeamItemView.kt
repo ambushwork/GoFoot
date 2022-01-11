@@ -44,8 +44,7 @@ class TeamItemView @JvmOverloads constructor(
     }
 
     fun setData(team: Team) {
-        tvName.text = team.name
-        Picasso.get().load(team.logo).into(logoIv)
+        this.team = team
     }
 
 

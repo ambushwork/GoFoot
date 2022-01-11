@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.netatmo.ylu.gofoot.R
-import com.netatmo.ylu.gofoot.repository.LeagueLiveData
+import com.netatmo.ylu.gofoot.repository.LeagueRepository
+import com.netatmo.ylu.gofoot.repository.LeagueViewModel
+import com.netatmo.ylu.gofoot.room.GoFootRoomDatabase
 import com.netatmo.ylu.gofoot.ui.team.TeamsActivity
 
 class LeaguesActivity : AppCompatActivity() {
@@ -22,7 +24,11 @@ class LeaguesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leagues)
-        val leagueLiveData = ViewModelProvider(this).get(LeagueLiveData::class.java)
+        val repo = LeagueRepository(GoFootRoomDatabase.getDatabase(this).leagueDao())
+        val viewModel =
+            ViewModelProvider(this, LeagueViewModel.FACTORY(repo))[LeagueViewModel::class.java]
+
+
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_leagues)
         val adapter = LeaguesAdapter().apply {
             listener = object : LeaguesAdapter.Listener {
@@ -33,6 +39,9 @@ class LeaguesActivity : AppCompatActivity() {
         }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-        leagueLiveData.liveData.observe(this, { t -> adapter.list = t })
+        viewModel.getLeagues().observe(this, { t -> adapter.list = t })
+        viewModel.update()
+
+
     }
 }

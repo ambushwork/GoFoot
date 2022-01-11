@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.netatmo.ylu.gofoot.R
 import com.netatmo.ylu.gofoot.repository.TeamRepository
 import com.netatmo.ylu.gofoot.repository.TeamsViewModel
-import com.netatmo.ylu.gofoot.repository.getTeam
-import com.netatmo.ylu.gofoot.room.TeamRoomDatabase
+import com.netatmo.ylu.gofoot.room.GoFootRoomDatabase
 
 class TeamInformationActivity : AppCompatActivity() {
 
@@ -35,11 +34,11 @@ class TeamInformationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team_info)
         headerView = findViewById(R.id.view_team_info_header)
-        val repo = TeamRepository(TeamRoomDatabase.getDatabase(this).teamDao())
+        val repo = TeamRepository(GoFootRoomDatabase.getDatabase(this).teamDao())
         viewModel =
             ViewModelProvider(this, TeamsViewModel.FACTORY(repo))[TeamsViewModel::class.java]
         val teamId: Int = intent.extras?.getInt(BUNDLE_TEAM_ID) ?: error("Can't get BUNDLE_TEAM_ID")
-        viewModel.teams.value?.getTeam(teamId)?.let {
+        viewModel.getTeamById(teamId).value?.let {
             headerView.setViewModel(it)
         }
     }

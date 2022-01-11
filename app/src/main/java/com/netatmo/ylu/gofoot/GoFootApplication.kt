@@ -4,7 +4,7 @@ import android.app.ActivityManager
 import android.app.Application
 import android.util.Log
 import com.netatmo.ylu.gofoot.repository.TeamRepository
-import com.netatmo.ylu.gofoot.room.TeamRoomDatabase
+import com.netatmo.ylu.gofoot.room.GoFootRoomDatabase
 import com.squareup.picasso.LruCache
 import com.squareup.picasso.Picasso
 
@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso
 class GoFootApplication : Application() {
 
     //FIXME: use hilt injection
-    val database by lazy { TeamRoomDatabase.getDatabase(this) }
+    val database by lazy { GoFootRoomDatabase.getDatabase(this) }
     val repository by lazy { TeamRepository(database.teamDao()) }
 
     override fun onCreate() {

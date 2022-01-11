@@ -11,12 +11,20 @@ class TeamRepository(private val teamDao: TeamDao) {
 
     val allTeams: LiveData<List<TeamInfo>> = teamDao.getTeamsLivedata()
 
+    fun getTeamsByLeagueId(id: String): LiveData<List<TeamInfo>> {
+        return teamDao.getTeamsByLeagueId(id)
+    }
+
+    fun getTeamById(id: Int): LiveData<TeamInfo> {
+        return teamDao.getTeamById(id)
+    }
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun updateTeam(leagueId: String, season: Int) {
         val result = RequestClient.getTeamByLeagueSeason(leagueId, season)
         teamDao.insertTeamAndVenue(
-            result.response.map { it.team },
+            result.response.map { it.team.copy(leagueId = leagueId) },
             result.response.map { it.venue })
         teamDao.insertJoint(result.response.map {
             TeamVenueCrossRef(it.team.teamId, it.venue.venueId)
