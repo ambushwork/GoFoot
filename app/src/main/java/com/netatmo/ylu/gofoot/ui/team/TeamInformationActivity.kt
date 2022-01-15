@@ -3,17 +3,20 @@ package com.netatmo.ylu.gofoot.ui.team
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.netatmo.ylu.gofoot.R
+import com.netatmo.ylu.gofoot.repository.PlayerViewModel
 import com.netatmo.ylu.gofoot.repository.TeamInfoViewModel
-import com.netatmo.ylu.gofoot.repository.TeamRepository
-import com.netatmo.ylu.gofoot.room.GoFootRoomDatabase
 import com.netatmo.ylu.gofoot.ui.player.PlayersView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TeamInformationActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: TeamInfoViewModel
+    private val teamViewModel: TeamInfoViewModel by viewModels()
+
+    private val playerViewModel: PlayerViewModel by viewModels()
 
     private lateinit var headerView: TeamInformationHeaderView
 
@@ -37,17 +40,12 @@ class TeamInformationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_team_info)
         val teamId: Int = intent.extras?.getInt(BUNDLE_TEAM_ID) ?: error("Can't get BUNDLE_TEAM_ID")
         headerView = findViewById(R.id.view_team_info_header)
-        playersView = findViewById(R.id.view_team_player_view)
-        playersView.teamId = teamId
-        val repo = TeamRepository(GoFootRoomDatabase.getDatabase(this).teamDao())
-        viewModel =
-            ViewModelProvider(
-                this, TeamInfoViewModel.FACTORY(repo)
-            )[TeamInfoViewModel::class.java].apply {
-                getTeamById(teamId).observe(
-                    this@TeamInformationActivity,
-                    { t -> headerView.setViewModel(t) })
-            }
+        playersView = findViewById<PlayersView>(R.id.view_team_player_view).apply {
+            this.viewModel = playerViewModel
+            this.teamId = teamId
+        }
+        teamViewModel.getTeamById(teamId)
+            .observe(this@TeamInformationActivity, { t -> headerView.setViewModel(t) })
 
     }
 }

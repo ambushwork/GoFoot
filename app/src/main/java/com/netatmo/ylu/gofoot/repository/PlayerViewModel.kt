@@ -5,9 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.netatmo.ylu.gofoot.model.Player
 import com.netatmo.ylu.gofoot.util.singleArgViewModelFactory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewModel() {
+@HiltViewModel
+class PlayerViewModel @Inject constructor(private val playerRepository: PlayerRepository) :
+    ViewModel() {
 
     companion object {
         val FACTORY = singleArgViewModelFactory(::PlayerViewModel)

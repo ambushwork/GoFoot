@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.netatmo.ylu.gofoot.model.TeamInfo
 import com.netatmo.ylu.gofoot.util.singleArgViewModelFactory
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TeamInfoViewModel(private val teamRepository: TeamRepository) : ViewModel() {
+@HiltViewModel
+class TeamInfoViewModel @Inject constructor(private val teamRepository: TeamRepository) :
+    ViewModel() {
 
     companion object {
         val FACTORY = singleArgViewModelFactory(::TeamInfoViewModel)
