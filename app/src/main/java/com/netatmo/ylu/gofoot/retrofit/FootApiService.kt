@@ -25,6 +25,13 @@ interface FootApiService {
         @Query("id") id: String
     ): Body<TeamInfo>
 
+    @GET("players")
+    suspend fun getPlayers(
+        @HeaderMap headers: Map<String, String>,
+        @Query("team") id: Int,
+        @Query("season") season: Int
+    ): Body<PlayerResponse>
+
     @GET("teams")
     suspend fun getTeams(
         @HeaderMap headers: Map<String, String>,

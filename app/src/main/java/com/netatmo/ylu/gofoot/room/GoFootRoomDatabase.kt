@@ -4,17 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.netatmo.ylu.gofoot.model.League
-import com.netatmo.ylu.gofoot.model.Team
-import com.netatmo.ylu.gofoot.model.TeamVenueCrossRef
-import com.netatmo.ylu.gofoot.model.Venue
+import com.netatmo.ylu.gofoot.model.*
 import com.netatmo.ylu.gofoot.room.league.LeagueDao
+import com.netatmo.ylu.gofoot.room.player.PlayerDao
 
 @Database(
     entities = [Team::class,
         Venue::class,
         TeamVenueCrossRef::class,
-        League::class],
+        League::class,
+        Player::class],
     version = 1,
     exportSchema = false
 )
@@ -23,6 +22,8 @@ abstract class GoFootRoomDatabase : RoomDatabase() {
     abstract fun leagueDao(): LeagueDao
 
     abstract fun teamDao(): TeamDao
+
+    abstract fun playerDao(): PlayerDao
 
     companion object {
 

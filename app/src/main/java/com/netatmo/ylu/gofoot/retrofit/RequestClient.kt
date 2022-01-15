@@ -37,6 +37,9 @@ object RequestClient {
 
     suspend fun getTeam(id: String): Body<TeamInfo> = service.getTeams(headers, id)
 
+    suspend fun getPlayersByTeamId(id: Int, season: Int): Body<PlayerResponse> =
+        service.getPlayers(headers, id, season)
+
     suspend fun getTeamByLeagueSeason(league: String, season: Int): Body<TeamInfo> =
         service.getTeams(headers, league = league, season = season)
 

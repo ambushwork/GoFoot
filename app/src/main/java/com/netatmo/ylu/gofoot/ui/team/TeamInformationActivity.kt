@@ -9,12 +9,15 @@ import com.netatmo.ylu.gofoot.R
 import com.netatmo.ylu.gofoot.repository.TeamInfoViewModel
 import com.netatmo.ylu.gofoot.repository.TeamRepository
 import com.netatmo.ylu.gofoot.room.GoFootRoomDatabase
+import com.netatmo.ylu.gofoot.ui.player.PlayersView
 
 class TeamInformationActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TeamInfoViewModel
 
     private lateinit var headerView: TeamInformationHeaderView
+
+    private lateinit var playersView: PlayersView
 
 
     companion object {
@@ -34,13 +37,13 @@ class TeamInformationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_team_info)
         val teamId: Int = intent.extras?.getInt(BUNDLE_TEAM_ID) ?: error("Can't get BUNDLE_TEAM_ID")
         headerView = findViewById(R.id.view_team_info_header)
-
+        playersView = findViewById(R.id.view_team_player_view)
+        playersView.teamId = teamId
         val repo = TeamRepository(GoFootRoomDatabase.getDatabase(this).teamDao())
         viewModel =
             ViewModelProvider(
                 this, TeamInfoViewModel.FACTORY(repo)
             )[TeamInfoViewModel::class.java].apply {
-                
                 getTeamById(teamId).observe(
                     this@TeamInformationActivity,
                     { t -> headerView.setViewModel(t) })

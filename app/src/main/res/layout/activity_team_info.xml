@@ -10,4 +10,10 @@
         android:id="@+id/view_team_info_header"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.netatmo.ylu.gofoot.ui.player.PlayersView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_team_player_view"
+        app:layout_constraintTop_toBottomOf="@id/view_team_info_header" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
