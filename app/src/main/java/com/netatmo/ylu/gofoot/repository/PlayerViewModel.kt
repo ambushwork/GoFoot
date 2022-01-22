@@ -1,29 +1,23 @@
 package com.netatmo.ylu.gofoot.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.netatmo.ylu.gofoot.model.Player
-import com.netatmo.ylu.gofoot.util.singleArgViewModelFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PlayerViewModel @Inject constructor(private val playerRepository: PlayerRepository) :
     ViewModel() {
 
-    companion object {
-        val FACTORY = singleArgViewModelFactory(::PlayerViewModel)
+    private val _playerList = MutableLiveData<PagingData<Player>>()
+
+    fun getPlayerByTeamId(id: Int): LiveData<PagingData<Player>> {
+        val response = playerRepository.getPlayersResultStream(id)
+        _playerList.value = response.value
+        return response
     }
 
-    fun getPlayerByTeamId(id: Int): LiveData<List<Player>> {
-        return playerRepository.getLiveData(id)
-    }
-
-    fun update(id: Int) {
-        viewModelScope.launch {
-            playerRepository.getPlayersByTeamId(id)
-        }
-    }
 }

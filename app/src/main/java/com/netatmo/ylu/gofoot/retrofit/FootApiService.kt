@@ -29,7 +29,8 @@ interface FootApiService {
     suspend fun getPlayers(
         @HeaderMap headers: Map<String, String>,
         @Query("team") id: Int,
-        @Query("season") season: Int
+        @Query("season") season: Int,
+        @Query("page") paging: Int,
     ): Body<PlayerResponse>
 
     @GET("teams")

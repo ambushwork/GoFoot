@@ -23,9 +23,8 @@ class PlayersView @JvmOverloads constructor(
         set(value) {
             value?.let {
                 viewModel?.getPlayerByTeamId(it)?.observe(context as AppCompatActivity) { players ->
-                    adapter.list = players
+                    adapter.submitData((context as AppCompatActivity).lifecycle, players)
                 }
-                viewModel?.update(value)
             }
             field = value
         }
