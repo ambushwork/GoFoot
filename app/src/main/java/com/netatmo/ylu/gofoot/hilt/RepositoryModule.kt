@@ -27,7 +27,7 @@ class RepositoryModule {
 
     @Provides
     fun providePlayerRepository(database: GoFootRoomDatabase): PlayerRepository {
-        return PlayerRepository(database.playerDao())
+        return PlayerRepository(database)
     }
 
     @Provides

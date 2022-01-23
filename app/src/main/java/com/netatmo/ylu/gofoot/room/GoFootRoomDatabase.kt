@@ -13,7 +13,8 @@ import com.netatmo.ylu.gofoot.room.player.PlayerDao
         Venue::class,
         TeamVenueCrossRef::class,
         League::class,
-        Player::class],
+        Player::class,
+        RemoteKey::class],
     version = 1,
     exportSchema = false
 )
@@ -24,6 +25,8 @@ abstract class GoFootRoomDatabase : RoomDatabase() {
     abstract fun teamDao(): TeamDao
 
     abstract fun playerDao(): PlayerDao
+
+    abstract fun remoteKeyDao(): RemoteKeyDao
 
     companion object {
 

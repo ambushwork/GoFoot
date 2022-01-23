@@ -1,15 +1,13 @@
 package com.netatmo.ylu.gofoot.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
+import androidx.paging.*
 import com.netatmo.ylu.gofoot.model.Player
 import com.netatmo.ylu.gofoot.paging.PlayerPagingSource
-import com.netatmo.ylu.gofoot.room.player.PlayerDao
+import com.netatmo.ylu.gofoot.paging.PlayerRemoteMediator
+import com.netatmo.ylu.gofoot.room.GoFootRoomDatabase
 
-class PlayerRepository(private val playerDao: PlayerDao) {
+class PlayerRepository(private val database: GoFootRoomDatabase) {
 
     companion object {
         private const val SEASON = 2021
@@ -30,15 +28,21 @@ class PlayerRepository(private val playerDao: PlayerDao) {
            }
        }*/
 
+    @OptIn(ExperimentalPagingApi::class)
     fun getPlayersResultStream(teamId: Int): LiveData<PagingData<Player>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PlayerPagingSource.NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = {
-                PlayerPagingSource(teamId, SEASON)
-            }
-        ).liveData
+            remoteMediator = PlayerRemoteMediator(teamId, SEASON, database)
+            /* pagingSourceFactory = {
+
+             }*/
+        ) {
+            //https://github.com/android/architecture-components-samples/blob/main/PagingWithNetworkSample/app/src/main/java/com/android/example/paging/pagingwithnetwork/reddit/repository/inDb/DbRedditPostRepository.kt
+            //PlayerPagingSource(teamId, SEASON, database.playerDao())
+            database.playerDao().getPlayerPagingDataByTeamId(teamId)
+        }.liveData
     }
 }

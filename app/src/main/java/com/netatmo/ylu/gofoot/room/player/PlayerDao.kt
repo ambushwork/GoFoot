@@ -1,6 +1,7 @@
 package com.netatmo.ylu.gofoot.room.player
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -18,4 +19,7 @@ interface PlayerDao {
 
     @Query("SELECT * FROM table_player WHERE teamId = :teamId")
     fun getPlayerLiveDataByTeamId(teamId: Int): LiveData<List<Player>>
+
+    @Query("SELECT * FROM table_player WHERE teamId = :teamId")
+    fun getPlayerPagingDataByTeamId(teamId: Int): PagingSource<Int, Player>
 }
