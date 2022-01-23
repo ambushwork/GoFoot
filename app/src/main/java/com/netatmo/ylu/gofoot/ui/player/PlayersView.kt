@@ -3,7 +3,8 @@ package com.netatmo.ylu.gofoot.ui.player
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.netatmo.ylu.gofoot.R
@@ -19,11 +20,15 @@ class PlayersView @JvmOverloads constructor(
 
     var viewModel: PlayerViewModel? = null
 
+    var lifecycleOwner: LifecycleOwner? = null
+
     var teamId: Int? = null
         set(value) {
-            value?.let {
-                viewModel?.getPlayerByTeamId(it)?.observe(context as AppCompatActivity) { players ->
-                    adapter.submitData((context as AppCompatActivity).lifecycle, players)
+            value?.let { teamId ->
+                lifecycleOwner?.let {
+                    viewModel?.getPlayerByTeamId(teamId)?.observe(it) { players ->
+                        adapter.submitData(it.lifecycle, players)
+                    }
                 }
             }
             field = value
@@ -36,5 +41,6 @@ class PlayersView @JvmOverloads constructor(
         recyclerView.adapter = PlayersAdapter().apply {
             this@PlayersView.adapter = this
         }
+        ViewCompat.setNestedScrollingEnabled(recyclerView, false)
     }
 }

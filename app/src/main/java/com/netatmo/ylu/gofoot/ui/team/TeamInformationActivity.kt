@@ -5,10 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.netatmo.ylu.gofoot.R
-import com.netatmo.ylu.gofoot.repository.PlayerViewModel
 import com.netatmo.ylu.gofoot.repository.TeamInfoViewModel
-import com.netatmo.ylu.gofoot.ui.player.PlayersView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,11 +17,11 @@ class TeamInformationActivity : AppCompatActivity() {
 
     private val teamViewModel: TeamInfoViewModel by viewModels()
 
-    private val playerViewModel: PlayerViewModel by viewModels()
-
     private lateinit var headerView: TeamInformationHeaderView
 
-    private lateinit var playersView: PlayersView
+    private lateinit var tabLayout: TabLayout
+
+    private lateinit var viewPager: ViewPager2
 
 
     companion object {
@@ -39,11 +40,14 @@ class TeamInformationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team_info)
         val teamId: Int = intent.extras?.getInt(BUNDLE_TEAM_ID) ?: error("Can't get BUNDLE_TEAM_ID")
+        viewPager = findViewById(R.id.view_pager)
+        viewPager.adapter = TeamPagerAdapter(teamId, this)
+        tabLayout = findViewById(R.id.tab_layout)
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text =
+                getString(TeamPage.values().asList().first { it.position == position }.title)
+        }.attach()
         headerView = findViewById(R.id.view_team_info_header)
-        playersView = findViewById<PlayersView>(R.id.view_team_player_view).apply {
-            this.viewModel = playerViewModel
-            this.teamId = teamId
-        }
         teamViewModel.getTeamById(teamId)
             .observe(this@TeamInformationActivity, { t -> headerView.setViewModel(t) })
 
