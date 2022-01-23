@@ -1,6 +1,9 @@
-package com.netatmo.ylu.gofoot.model
+package com.netatmo.ylu.gofoot.model.fixture
 
 import com.google.gson.annotations.SerializedName
+import com.netatmo.ylu.gofoot.model.Periods
+import com.netatmo.ylu.gofoot.model.Status
+import com.netatmo.ylu.gofoot.model.Venue
 
 /**
  * https://www.api-football.com/documentation-v3#operation/get-fixtures

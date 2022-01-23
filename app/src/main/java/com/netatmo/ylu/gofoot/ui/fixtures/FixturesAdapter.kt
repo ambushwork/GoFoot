@@ -2,7 +2,7 @@ package com.netatmo.ylu.gofoot.ui.fixtures
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.netatmo.ylu.gofoot.model.FixtureResponse
+import com.netatmo.ylu.gofoot.model.fixture.FixtureResponse
 
 internal class FixturesAdapter : RecyclerView.Adapter<FixturesAdapter.FixtureHolder>() {
 

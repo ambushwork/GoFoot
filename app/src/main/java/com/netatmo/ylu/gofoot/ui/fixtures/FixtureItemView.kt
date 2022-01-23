@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.setPadding
 import com.netatmo.ylu.gofoot.R
-import com.netatmo.ylu.gofoot.model.FixtureResponse
+import com.netatmo.ylu.gofoot.model.fixture.FixtureResponse
 import com.squareup.picasso.Picasso
 
 class FixtureItemView @JvmOverloads constructor(

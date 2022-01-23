@@ -1,6 +1,7 @@
-package com.netatmo.ylu.gofoot.model
+package com.netatmo.ylu.gofoot.model.fixture
 
 import com.google.gson.annotations.SerializedName
+import com.netatmo.ylu.gofoot.model.Team
 
 data class FixtureTeams(
     @SerializedName("home") val home: Team,

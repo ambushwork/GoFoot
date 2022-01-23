@@ -1,6 +1,7 @@
 package com.netatmo.ylu.gofoot.retrofit
 
 import com.netatmo.ylu.gofoot.model.*
+import com.netatmo.ylu.gofoot.model.fixture.FixtureResponse
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
 import retrofit2.http.Query

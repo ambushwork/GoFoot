@@ -2,6 +2,7 @@ package com.netatmo.ylu.gofoot.retrofit
 
 import com.netatmo.ylu.gofoot.constants.*
 import com.netatmo.ylu.gofoot.model.*
+import com.netatmo.ylu.gofoot.model.fixture.FixtureResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
