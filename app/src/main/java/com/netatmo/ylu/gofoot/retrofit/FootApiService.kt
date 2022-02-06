@@ -47,4 +47,12 @@ interface FootApiService {
         @Query("live") live: String
     ): Body<FixtureResponse>
 
+    @GET("fixtures")
+    suspend fun getFixtures(
+        @HeaderMap headers: Map<String, String>,
+        @Query("season") season: String,
+        @Query("team") teamId: Int,
+        @Query("from") fromDate: String,
+        @Query("to") toDate: String
+    ): Body<FixtureResponse>
 }

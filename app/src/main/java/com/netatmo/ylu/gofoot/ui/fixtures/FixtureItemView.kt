@@ -40,7 +40,7 @@ class FixtureItemView @JvmOverloads constructor(
         setPadding(16)
         setOnClickListener {
             fixture?.let {
-                listener?.onItemClicked(it.fixtures.id)
+                listener?.onItemClicked(it.fixture.id)
             }
         }
     }
@@ -52,7 +52,7 @@ class FixtureItemView @JvmOverloads constructor(
         Picasso.get().load(fixture.fixtureTeams.home.logo).into(homeIcon)
         tvHomeName.text = fixture.fixtureTeams.home.name
         tvAwayName.text = fixture.fixtureTeams.away.name
-        tvTime.text = fixture.fixtures.status.elapsed.toString()
+        tvTime.text = fixture.fixture.status.elapsed.toString()
         tvLeague.text = fixture.league.name
     }
 

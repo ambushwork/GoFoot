@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.netatmo.ylu.gofoot.R
+import com.netatmo.ylu.gofoot.repository.FixturesViewModel
 import com.netatmo.ylu.gofoot.repository.PlayerViewModel
 import com.netatmo.ylu.gofoot.ui.player.PlayersView
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,8 @@ class TeamPlayerFragment : Fragment() {
 
     private val playerViewModel: PlayerViewModel by viewModels()
 
+    private val fixtureViewModel: FixturesViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,7 +39,15 @@ class TeamPlayerFragment : Fragment() {
         arguments?.takeIf { it.containsKey(ARG_INDEX) && it.containsKey(ARG_TEAM_ID) }?.apply {
             TeamPage.fromPosition(getInt(ARG_INDEX)).apply {
                 when (this) {
-                    TeamPage.FIXTURES -> rootLayout.addView(TeamFixtureView(requireContext()))
+                    TeamPage.FIXTURES -> {
+                        TeamFixtureView(requireContext()).apply {
+                            viewModel = fixtureViewModel
+                            lifecycleOwner = this@TeamPlayerFragment
+                            teamId = getInt(ARG_TEAM_ID)
+                            rootLayout.addView(this)
+                        }
+
+                    }
                     TeamPage.PLAYERS -> {
                         PlayersView(requireContext()).apply {
                             viewModel = playerViewModel

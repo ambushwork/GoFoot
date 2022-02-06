@@ -46,4 +46,10 @@ object RequestClient {
 
     suspend fun getLiveFixtures(): Body<FixtureResponse> = service.getFixturesByLive(headers, "all")
 
+    suspend fun getFixtures(
+        teamId: Int,
+        season: String,
+        from: String,
+        to: String
+    ): Body<FixtureResponse> = service.getFixtures(headers, season, teamId, from, to)
 }
