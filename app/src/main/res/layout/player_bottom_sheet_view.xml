@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/player_stat_header_height">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_player_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/default_padding"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_player_name"
+            android:layout_marginLeft="@dimen/default_padding"
+            tools:text="Neymar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_player_age"
+            app:layout_constraintLeft_toRightOf="@id/iv_player_icon" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_country_flag"
+            android:layout_marginLeft="@dimen/default_padding"
+            app:layout_constraintTop_toTopOf="@id/tv_player_name"
+            app:layout_constraintBottom_toBottomOf="@id/tv_player_name"
+            app:layout_constraintLeft_toRightOf="@id/tv_player_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_player_age"
+            tools:text="Age: 28"
+            app:layout_constraintTop_toBottomOf="@+id/tv_player_name"
+            app:layout_constraintBottom_toTopOf="@id/tv_player_team"
+            app:layout_constraintLeft_toLeftOf="@id/tv_player_name" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_player_team"
+            tools:text="Paris Saint German"
+            app:layout_constraintTop_toBottomOf="@+id/tv_player_age"
+            app:layout_constraintBottom_toTopOf="@id/tv_player_position"
+            app:layout_constraintLeft_toLeftOf="@id/tv_player_age" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_player_position"
+            tools:text="Striker"
+            app:layout_constraintTop_toBottomOf="@+id/tv_player_team"
+            app:layout_constraintLeft_toLeftOf="@id/tv_player_team"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_statistic_recycler_view"
+        app:layout_constraintTop_toBottomOf="@id/iv_player_icon" />
+
+</LinearLayout>

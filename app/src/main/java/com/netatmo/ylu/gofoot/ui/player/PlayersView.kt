@@ -18,6 +18,7 @@ class PlayersView @JvmOverloads constructor(
     private val recyclerView: RecyclerView
     private val adapter: PlayersAdapter
 
+    var listener: Listener? = null
     var viewModel: PlayerViewModel? = null
 
     var lifecycleOwner: LifecycleOwner? = null
@@ -40,7 +41,18 @@ class PlayersView @JvmOverloads constructor(
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = PlayersAdapter().apply {
             this@PlayersView.adapter = this
+            listener = object : PlayersAdapter.Listener {
+                override fun onPlayerDetailRequested(playerId: Int) {
+                    this@PlayersView.listener?.onPlayerDetailRequested(playerId)
+                }
+
+            }
         }
         ViewCompat.setNestedScrollingEnabled(recyclerView, false)
+    }
+
+    interface Listener {
+
+        fun onPlayerDetailRequested(playerId: Int)
     }
 }

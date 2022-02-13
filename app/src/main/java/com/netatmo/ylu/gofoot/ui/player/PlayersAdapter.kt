@@ -9,6 +9,8 @@ import com.netatmo.ylu.gofoot.model.Player
 internal class PlayersAdapter :
     PagingDataAdapter<Player, PlayersAdapter.PlayerHolder>(DiffUtilCallback) {
 
+    var listener: Listener? = null
+
     internal class PlayerHolder(val item: PlayerItemView) : RecyclerView.ViewHolder(item)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerHolder {
@@ -16,7 +18,15 @@ internal class PlayersAdapter :
     }
 
     override fun onBindViewHolder(holder: PlayerHolder, position: Int) {
-        getItem(position)?.let { holder.item.player = it }
+        getItem(position)?.let {
+            holder.item.player = it
+            holder.item.listener = object : PlayerItemView.Listener {
+                override fun onPlayerDetailRequested(playerId: Int) {
+                    listener?.onPlayerDetailRequested(playerId)
+                }
+
+            }
+        }
     }
 
     object DiffUtilCallback : DiffUtil.ItemCallback<Player>() {
@@ -29,4 +39,10 @@ internal class PlayersAdapter :
         }
 
     }
+
+    interface Listener {
+
+        fun onPlayerDetailRequested(playerId: Int)
+    }
 }
+

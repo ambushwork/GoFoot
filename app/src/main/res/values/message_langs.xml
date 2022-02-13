@@ -2,4 +2,8 @@
 <resources>
     <string name="__PAGE_TITLE_PLAYER">Players</string>
     <string name="__PAGE_TITLE_FIXTURE">Matches</string>
+    <string name="__STAT_TITLE_GAMES">Game appearances</string>
+    <string name="__STAT_TITLE_GOALS">Goals</string>
+    <string name="__STAT_TITLE_ASSIST">Assist</string>
+
 </resources>

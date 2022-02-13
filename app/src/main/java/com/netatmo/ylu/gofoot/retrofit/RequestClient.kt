@@ -41,6 +41,9 @@ object RequestClient {
     suspend fun getPlayersByTeamId(id: Int, season: Int, paging: Int): Body<PlayerResponse> =
         service.getPlayers(headers, id, season, paging)
 
+    suspend fun getPlayerId(id: Int, season: String): Body<PlayerResponse> =
+        service.getPlayerById(headers, id, season)
+
     suspend fun getTeamByLeagueSeason(league: String, season: Int): Body<TeamInfo> =
         service.getTeams(headers, league = league, season = season)
 

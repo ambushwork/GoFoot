@@ -10,10 +10,10 @@ class TeamPagerAdapter(private val teamId: Int, fragmentActivity: FragmentActivi
     override fun getItemCount(): Int = TeamPage.values().size
 
     override fun createFragment(position: Int): Fragment {
-        val fragment = TeamPlayerFragment()
+        val fragment = TeamPageFragment()
         fragment.arguments = Bundle().apply {
-            putInt(TeamPlayerFragment.ARG_INDEX, position)
-            putInt(TeamPlayerFragment.ARG_TEAM_ID, teamId)
+            putInt(TeamPageFragment.ARG_INDEX, position)
+            putInt(TeamPageFragment.ARG_TEAM_ID, teamId)
         }
         return fragment
     }

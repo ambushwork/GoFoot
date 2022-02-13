@@ -9,11 +9,12 @@ import androidx.fragment.app.viewModels
 import com.netatmo.ylu.gofoot.R
 import com.netatmo.ylu.gofoot.repository.FixturesViewModel
 import com.netatmo.ylu.gofoot.repository.PlayerViewModel
+import com.netatmo.ylu.gofoot.ui.PlayerBottomSheet
 import com.netatmo.ylu.gofoot.ui.player.PlayersView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TeamPlayerFragment : Fragment() {
+class TeamPageFragment : Fragment() {
 
     companion object {
         const val ARG_INDEX = "index"
@@ -31,7 +32,7 @@ class TeamPlayerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_team_player, container, false)
+        return inflater.inflate(R.layout.fragment_team_page, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +43,7 @@ class TeamPlayerFragment : Fragment() {
                     TeamPage.FIXTURES -> {
                         TeamFixtureView(requireContext()).apply {
                             viewModel = fixtureViewModel
-                            lifecycleOwner = this@TeamPlayerFragment
+                            lifecycleOwner = this@TeamPageFragment
                             teamId = getInt(ARG_TEAM_ID)
                             rootLayout.addView(this)
                         }
@@ -51,14 +52,30 @@ class TeamPlayerFragment : Fragment() {
                     TeamPage.PLAYERS -> {
                         PlayersView(requireContext()).apply {
                             viewModel = playerViewModel
-                            lifecycleOwner = this@TeamPlayerFragment
+                            lifecycleOwner = this@TeamPageFragment
                             teamId = getInt(ARG_TEAM_ID)
                             rootLayout.addView(this)
+                            listener = object : PlayersView.Listener {
+                                override fun onPlayerDetailRequested(playerId: Int) {
+                                    showPlayerDetail(playerId)
+                                }
+
+                            }
                         }
 
                     }
                 }
             }
         }
+    }
+
+    private fun showPlayerDetail(playerId: Int) {
+        PlayerBottomSheet().apply {
+            val bundle = Bundle()
+            bundle.putInt(PlayerBottomSheet.PLAYER_ID, playerId)
+            arguments = bundle
+        }.show(
+            parentFragmentManager, PlayerBottomSheet.TAG
+        )
     }
 }
