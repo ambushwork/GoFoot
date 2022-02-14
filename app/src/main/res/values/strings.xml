@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GoFoot</string>
+    <string name="in_minute">%1$d\'\'</string>
 </resources>

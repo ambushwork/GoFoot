@@ -52,7 +52,7 @@ class FixtureItemView @JvmOverloads constructor(
         Picasso.get().load(fixture.fixtureTeams.home.logo).into(homeIcon)
         tvHomeName.text = fixture.fixtureTeams.home.name
         tvAwayName.text = fixture.fixtureTeams.away.name
-        tvTime.text = fixture.fixture.status.elapsed.toString()
+        tvTime.text = context.getString(R.string.in_minute, fixture.fixture.status.elapsed)
         tvLeague.text = fixture.league.name
     }
 
