@@ -1,40 +1,37 @@
 package com.netatmo.ylu.gofoot
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.netatmo.ylu.gofoot.repository.CountriesViewModel
-import com.netatmo.ylu.gofoot.ui.fixtures.FixturesActivity
-import com.netatmo.ylu.gofoot.ui.league.LeaguesActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.netatmo.ylu.gofoot.ui.league.LeaguesFragment
+import com.netatmo.ylu.gofoot.ui.live.LiveFragment
+import com.netatmo.ylu.gofoot.util.loadFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var countriesViewModel: CountriesViewModel
-    private lateinit var textView: TextView
-    private lateinit var buttonLeague: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        textView = findViewById(R.id.textview)
-        buttonLeague = findViewById(R.id.btn_league)
-        buttonLeague.setOnClickListener {
-            LeaguesActivity.start(this)
-        }
-
-        findViewById<Button>(R.id.btn_fixtures).setOnClickListener {
-            FixturesActivity.start(this@MainActivity)
-        }
-
-        countriesViewModel = ViewModelProvider(this).get(CountriesViewModel::class.java)
-        countriesViewModel.countryLiveData.observe(this,
-            { t ->
-                t?.firstOrNull()?.name?.let {
-                    textView.text = it
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.page_live -> {
+                    loadFragment(R.id.fragment_container, LiveFragment.getInstance())
+                    true
                 }
-            })
+                R.id.page_data -> {
+                    loadFragment(R.id.fragment_container, LeaguesFragment.getInstance())
+                    true
+                }
+                R.id.page_profile -> {
+                    true
+                }
+                else -> false
+            }
+        }
+        loadFragment(R.id.fragment_container, LiveFragment.getInstance())
     }
 
 }

@@ -29,12 +29,13 @@ internal class LeaguesAdapter : RecyclerView.Adapter<LeaguesAdapter.LeagueHolder
         }
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int {
+        return list.size
+    }
 
     internal class LeagueHolder(val item: LeagueItemView) : RecyclerView.ViewHolder(item)
 
     interface Listener {
         fun onItemClicked(id: String)
     }
-
 }

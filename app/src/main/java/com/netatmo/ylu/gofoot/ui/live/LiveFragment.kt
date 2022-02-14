@@ -1,28 +1,33 @@
-package com.netatmo.ylu.gofoot.ui.fixtures
+package com.netatmo.ylu.gofoot.ui.live
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.netatmo.ylu.gofoot.R
 import com.netatmo.ylu.gofoot.repository.FixturesViewModel
+import com.netatmo.ylu.gofoot.ui.fixtures.FixturesAdapter
 
-class FixturesActivity : AppCompatActivity() {
+class LiveFragment : Fragment() {
 
     companion object {
-        fun start(context: Context) {
-            context.startActivity(Intent(context, FixturesActivity::class.java))
+        fun getInstance(): Fragment {
+            return LiveFragment()
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fixtures)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val rootView = inflater.inflate(R.layout.activity_fixtures, container, false)
+        val recyclerView = rootView.findViewById<RecyclerView>(R.id.recycler_view_fixtures)
         val fixtureLiveData = ViewModelProvider(this)[FixturesViewModel::class.java]
-        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_fixtures)
         val adapter = FixturesAdapter().apply {
             listener = object : FixturesAdapter.Listener {
                 override fun onItemClicked(id: Int) {
@@ -31,8 +36,9 @@ class FixturesActivity : AppCompatActivity() {
             }
         }
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         fixtureLiveData.liveData.observe(this, { t -> adapter.list = t })
         fixtureLiveData.liveUpdate()
+        return rootView
     }
 }

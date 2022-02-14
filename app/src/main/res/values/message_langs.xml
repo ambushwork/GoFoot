@@ -5,5 +5,7 @@
     <string name="__STAT_TITLE_GAMES">Game appearances</string>
     <string name="__STAT_TITLE_GOALS">Goals</string>
     <string name="__STAT_TITLE_ASSIST">Assist</string>
-
+    <string name="__BOTTOM_NAV_PAGE_LIVE">Live</string>
+    <string name="__BOTTOM_NAV_PAGE_DATA">Data</string>
+    <string name="__BOTTOM_NAV_PAGE_PROFILE">Profile</string>
 </resources>

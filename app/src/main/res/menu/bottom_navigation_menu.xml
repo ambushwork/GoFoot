@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/page_live"
+        android:enabled="true"
+        android:icon="@drawable/ic_live"
+        android:title="@string/__BOTTOM_NAV_PAGE_LIVE" />
+    <item
+        android:id="@+id/page_data"
+        android:enabled="true"
+        android:icon="@drawable/ic_stats"
+        android:title="@string/__BOTTOM_NAV_PAGE_DATA" />
+    <item
+        android:id="@+id/page_profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/__BOTTOM_NAV_PAGE_PROFILE" />
+</menu>
