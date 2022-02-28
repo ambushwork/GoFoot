@@ -15,9 +15,15 @@ class FixturesViewModel : ViewModel() {
         MutableLiveData<List<FixtureResponse>>()
     }
 
+    val loading: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>(false)
+    }
+
     fun liveUpdate() {
+        loading.value = true
         viewModelScope.launch {
             liveData.value = RequestClient.getLiveFixtures().response
+            loading.value = false
         }
     }
 
