@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.netatmo.ylu.gofoot.model.TeamInfo
 import com.netatmo.ylu.gofoot.util.singleArgViewModelFactory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TeamsViewModel(private val repository: TeamRepository) : ViewModel() {
+@HiltViewModel
+class TeamsViewModel @Inject constructor(private val repository: TeamRepository) : ViewModel() {
 
     companion object {
         val FACTORY = singleArgViewModelFactory(::TeamsViewModel)

@@ -25,27 +25,11 @@ class LeaguesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        /*val rootView = inflater.inflate(R.layout.activity_leagues, container, false)
-        val recyclerView = rootView.findViewById<RecyclerView>(R.id.recycler_view_leagues)
-        val adapter = LeaguesAdapter().apply {
-            listener = object : LeaguesAdapter.Listener {
-                override fun onItemClicked(id: String) {
-                    TeamsActivity.start(requireContext(), id)
-                }
-            }
-        }
-
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.getLeagues().observe(this, { t ->
-            adapter.list = t
-        })
-        viewModel.update()*/
-
+    ): View {
+        viewModel.update()
         return ComposeView(requireContext()).apply {
             setContent {
-                DataView()
+                DataView(viewModel)
             }
         }
     }

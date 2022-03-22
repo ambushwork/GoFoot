@@ -19,6 +19,8 @@ class LeagueViewModel @Inject constructor(private val repository: LeagueReposito
 
     fun getLeagues(): LiveData<List<League>> = repository.allLeagues
 
+    fun getLeaguesByIds(ids: List<String>): LiveData<List<League>> = repository.getLeaguesByIds(ids)
+
     fun update() {
         viewModelScope.launch {
             repository.updateAll()

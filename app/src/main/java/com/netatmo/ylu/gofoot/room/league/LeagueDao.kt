@@ -19,6 +19,10 @@ interface LeagueDao {
     @Query("SELECT * FROM table_leagues")
     fun getAllLeaguesLiveData(): LiveData<List<League>>
 
+    @Transaction
+    @Query("SELECT * FROM table_leagues WHERE id IN (:ids)")
+    fun getLeaguesByIds(ids: List<String>): LiveData<List<League>>
+
     @Query("SELECT * FROM table_leagues")
     fun getAllLeagues(): List<League>
 
