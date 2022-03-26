@@ -2,6 +2,7 @@ package com.netatmo.ylu.gofoot.ui.league
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -23,7 +24,7 @@ import com.netatmo.ylu.gofoot.repository.TeamsViewModel
 import com.netatmo.ylu.gofoot.util.getSelectedLeagueIds
 
 @Composable
-fun DataView(viewModel: LeagueViewModel) {
+fun DataView(viewModel: LeagueViewModel, onItemClick: (teamId: Int) -> Unit) {
     val leagues = getSelectedLeagueIds()
     val state = viewModel.getLeaguesByIds(leagues).observeAsState()
     val tabPosition = remember { mutableStateOf(0) }
@@ -35,7 +36,7 @@ fun DataView(viewModel: LeagueViewModel) {
                 tabPosition.value = index
             }
         )
-        LeagueTeamsView(leagues[tabPosition.value])
+        LeagueTeamsView(leagues[tabPosition.value], onItemClick = onItemClick)
     }
 }
 
@@ -70,7 +71,8 @@ fun TextTabs(
 @Composable
 fun LeagueTeamsView(
     id: String,
-    viewModel: TeamsViewModel = hiltViewModel()
+    viewModel: TeamsViewModel = hiltViewModel(),
+    onItemClick: (teamId: Int) -> Unit
 ) {
     viewModel.update(id, 2021)
     Box(
@@ -81,15 +83,23 @@ fun LeagueTeamsView(
         val teams = viewModel.getTeamsByLeagueId(id).observeAsState(initial = emptyList())
         LazyColumn {
             itemsIndexed(items = teams.value) { index, item ->
-                TeamItemView(index, teams.value[index])
+                TeamItemView(index, teams.value[index], onItemClick = onItemClick)
             }
         }
     }
 }
 
 @Composable
-fun TeamItemView(index: Int, team: TeamInfo) {
-    Row(modifier = Modifier.padding(16.dp)) {
+fun TeamItemView(
+    index: Int,
+    team: TeamInfo,
+    onItemClick: (teamId: Int) -> Unit
+) {
+    Row(modifier = Modifier
+        .clickable {
+            onItemClick(team.team.teamId)
+        }
+        .padding(16.dp)) {
 
         Text(
             text = index.toString(),

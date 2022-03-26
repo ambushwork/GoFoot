@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.netatmo.ylu.gofoot.repository.LeagueViewModel
+import com.netatmo.ylu.gofoot.ui.team.TeamInformationActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,7 +30,9 @@ class LeaguesFragment : Fragment() {
         viewModel.update()
         return ComposeView(requireContext()).apply {
             setContent {
-                DataView(viewModel)
+                DataView(viewModel, onItemClick = { teamId ->
+                    TeamInformationActivity.start(context, teamId)
+                })
             }
         }
     }
