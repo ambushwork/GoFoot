@@ -56,6 +56,14 @@ fun strToDate(str: String): Date {
     return format.parse(str) ?: error("date parsing error")
 }
 
+fun strToDayMonth(str: String): String {
+    val date = strToDate(str)
+    return Calendar.getInstance().let {
+        it.time = date
+        "${it.get(Calendar.MONTH) + 1}/${it.get(Calendar.DAY_OF_MONTH)}"
+    }
+}
+
 fun Fixture.isSameDayWith(otherFixture: Fixture): Boolean {
     val lastMatchDate = strToDate(otherFixture.date)
     val thisMatchDate = strToDate(this.date)
