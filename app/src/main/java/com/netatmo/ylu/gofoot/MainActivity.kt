@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.netatmo.ylu.gofoot.ui.league.LeaguesFragment
 import com.netatmo.ylu.gofoot.ui.live.LiveFragment
+import com.netatmo.ylu.gofoot.ui.profile.ProfileFragment
 import com.netatmo.ylu.gofoot.util.loadFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.page_profile -> {
+                    loadFragment(R.id.fragment_container, ProfileFragment.getInstance())
                     true
                 }
                 else -> false

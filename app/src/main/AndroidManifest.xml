@@ -24,6 +24,7 @@
         <activity android:name=".ui.team.TeamsActivity" />
         <activity android:name=".ui.fixtures.FixturesActivity" />
         <activity android:name=".ui.team.TeamInformationActivity" />
+        <activity android:name=".ui.league.FavoriteLeaguesActivity" />
     </application>
 
 </manifest>
