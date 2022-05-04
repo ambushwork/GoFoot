@@ -23,6 +23,10 @@ interface LeagueDao {
     @Query("SELECT * FROM table_leagues WHERE id IN (:ids)")
     fun getLeaguesByIds(ids: List<String>): LiveData<List<League>>
 
+    @Transaction
+    @Query("UPDATE table_leagues SET favorite = :fav WHERE id = :id")
+    fun setFavLeague(id: String, fav: Boolean)
+
     @Query("SELECT * FROM table_leagues")
     fun getAllLeagues(): List<League>
 

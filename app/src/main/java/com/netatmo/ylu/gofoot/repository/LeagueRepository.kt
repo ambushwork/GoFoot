@@ -16,6 +16,13 @@ class LeagueRepository(private val dao: LeagueDao) {
         return dao.getLeaguesByIds(ids)
     }
 
+    @WorkerThread
+    suspend fun setFavLeague(id: String, fav: Boolean) {
+        withContext(Dispatchers.IO) {
+            dao.setFavLeague(id, fav)
+        }
+    }
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun updateAll() {

@@ -10,5 +10,6 @@ data class League(
     @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
     @SerializedName("type") val type: LeagueType,
-    @SerializedName("logo") val logo: String
+    @SerializedName("logo") val logo: String,
+    val favorite: Boolean = false
 )
