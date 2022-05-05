@@ -4,12 +4,11 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.netatmo.ylu.gofoot.model.TeamInfo
 import com.netatmo.ylu.gofoot.model.TeamVenueCrossRef
+import com.netatmo.ylu.gofoot.model.standing.Standing
 import com.netatmo.ylu.gofoot.retrofit.RequestClient
 import com.netatmo.ylu.gofoot.room.TeamDao
 
 class TeamRepository(private val teamDao: TeamDao) {
-
-    val allTeams: LiveData<List<TeamInfo>> = teamDao.getTeamsLivedata()
 
     fun getTeamsByLeagueId(id: String): LiveData<List<TeamInfo>> {
         return teamDao.getTeamsByLeagueId(id)
@@ -17,6 +16,15 @@ class TeamRepository(private val teamDao: TeamDao) {
 
     fun getTeamById(id: Int): LiveData<TeamInfo> {
         return teamDao.getTeamById(id)
+    }
+
+    @Suppress
+    @WorkerThread
+    suspend fun updateStandings(leagueId: Int, season: Int): List<Standing> {
+        return RequestClient.getStandings(
+            season = season,
+            league = leagueId
+        ).response.firstOrNull()?.league?.standings?.firstOrNull() ?: emptyList()
     }
 
     @Suppress("RedundantSuspendModifier")

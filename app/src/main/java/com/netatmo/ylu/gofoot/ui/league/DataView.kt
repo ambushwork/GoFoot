@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import com.netatmo.ylu.gofoot.model.League
 import com.netatmo.ylu.gofoot.model.TeamInfo
+import com.netatmo.ylu.gofoot.model.standing.Standing
 import com.netatmo.ylu.gofoot.repository.LeagueViewModel
 import com.netatmo.ylu.gofoot.repository.TeamsViewModel
 
@@ -80,18 +81,52 @@ fun LeagueTeamsView(
     viewModel: TeamsViewModel = hiltViewModel(),
     onItemClick: (teamId: Int) -> Unit
 ) {
-    viewModel.update(id, 2021)
+    viewModel.updateStandings(id)
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        val teams = viewModel.getTeamsByLeagueId(id).observeAsState(initial = emptyList())
+        val standings = viewModel.standings.observeAsState(initial = emptyList())
         LazyColumn {
-            itemsIndexed(items = teams.value) { index, item ->
-                TeamItemView(index, teams.value[index], onItemClick = onItemClick)
+            itemsIndexed(items = standings.value) { index, item ->
+                StandingItemView(index, standings.value[index], onItemClick = onItemClick)
             }
         }
+    }
+}
+
+@Composable
+fun StandingItemView(
+    index: Int,
+    standing: Standing,
+    onItemClick: (teamId: Int) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .clickable {
+                onItemClick(standing.team.teamId)
+            }
+            .padding(16.dp)) {
+
+        Text(
+            text = index.toString(),
+            modifier = Modifier.weight(1f)
+        )
+        Image(
+            painter = rememberImagePainter(standing.team.logo),
+            contentDescription = "",
+            modifier = Modifier
+                .height(24.dp)
+                .width(24.dp)
+                .weight(1f)
+        )
+        Text(
+            text = standing.team.name,
+            modifier = Modifier.weight(3f)
+        )
+
+        Text(text = standing.points.toString())
     }
 }
 
@@ -101,11 +136,12 @@ fun TeamItemView(
     team: TeamInfo,
     onItemClick: (teamId: Int) -> Unit
 ) {
-    Row(modifier = Modifier
-        .clickable {
-            onItemClick(team.team.teamId)
-        }
-        .padding(16.dp)) {
+    Row(
+        modifier = Modifier
+            .clickable {
+                onItemClick(team.team.teamId)
+            }
+            .padding(16.dp)) {
 
         Text(
             text = index.toString(),

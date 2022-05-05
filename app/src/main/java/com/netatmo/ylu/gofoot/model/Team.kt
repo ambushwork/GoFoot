@@ -9,9 +9,9 @@ data class Team(
     @PrimaryKey
     @SerializedName("id") val teamId: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("country") val country: String,
-    @SerializedName("founded") val founded: Int,
-    @SerializedName("national") val national: Boolean,
+    @SerializedName("country") val country: String?,
+    @SerializedName("founded") val founded: Int?,
+    @SerializedName("national") val national: Boolean?,
     @SerializedName("logo") val logo: String,
     val leagueId: String
 ) {

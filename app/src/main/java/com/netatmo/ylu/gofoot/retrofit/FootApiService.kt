@@ -2,6 +2,7 @@ package com.netatmo.ylu.gofoot.retrofit
 
 import com.netatmo.ylu.gofoot.model.*
 import com.netatmo.ylu.gofoot.model.fixture.FixtureResponse
+import com.netatmo.ylu.gofoot.model.standing.StandingsResponse
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
 import retrofit2.http.Query
@@ -62,4 +63,11 @@ interface FootApiService {
         @Query("from") fromDate: String,
         @Query("to") toDate: String
     ): Body<FixtureResponse>
+
+    @GET("standings")
+    suspend fun getStandings(
+        @HeaderMap headers: Map<String, String>,
+        @Query("season") season: Int,
+        @Query("league") league: Int,
+    ): Body<StandingsResponse>
 }

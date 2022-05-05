@@ -3,6 +3,7 @@ package com.netatmo.ylu.gofoot.retrofit
 import com.netatmo.ylu.gofoot.constants.*
 import com.netatmo.ylu.gofoot.model.*
 import com.netatmo.ylu.gofoot.model.fixture.FixtureResponse
+import com.netatmo.ylu.gofoot.model.standing.StandingsResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -55,4 +56,13 @@ object RequestClient {
         from: String,
         to: String
     ): Body<FixtureResponse> = service.getFixtures(headers, season, teamId, from, to)
+
+    suspend fun getStandings(
+        season: Int,
+        league: Int
+    ): Body<StandingsResponse> = service.getStandings(
+        headers = headers,
+        season = season,
+        league = league
+    )
 }
