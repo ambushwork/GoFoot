@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
@@ -21,12 +22,10 @@ import com.netatmo.ylu.gofoot.model.League
 import com.netatmo.ylu.gofoot.model.TeamInfo
 import com.netatmo.ylu.gofoot.repository.LeagueViewModel
 import com.netatmo.ylu.gofoot.repository.TeamsViewModel
-import com.netatmo.ylu.gofoot.util.getSelectedLeagueIds
 
 @Composable
 fun DataView(viewModel: LeagueViewModel, onItemClick: (teamId: Int) -> Unit) {
-    val leagues = getSelectedLeagueIds()
-    val state = viewModel.getLeaguesByIds(leagues).observeAsState()
+    val state = viewModel.favLeagues.observeAsState()
     val tabPosition = remember { mutableStateOf(0) }
     Column {
         TextTabs(
@@ -36,7 +35,10 @@ fun DataView(viewModel: LeagueViewModel, onItemClick: (teamId: Int) -> Unit) {
                 tabPosition.value = index
             }
         )
-        LeagueTeamsView(leagues[tabPosition.value], onItemClick = onItemClick)
+        state.value?.takeIf { it.isNotEmpty() }?.let {
+            LeagueTeamsView(it[tabPosition.value].id, onItemClick = onItemClick)
+        }
+
     }
 }
 
@@ -59,7 +61,11 @@ fun TextTabs(
                     selected = tabIndex == index,
                     onClick = { onClick(index) },
                     text = {
-                        Text(text = league.name)
+                        Text(
+                            text = league.name,
+                            maxLines = 1,
+                            style = MaterialTheme.typography.caption
+                        )
                     }
                 )
             }

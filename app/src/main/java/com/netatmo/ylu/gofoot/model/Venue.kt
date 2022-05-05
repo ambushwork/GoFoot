@@ -11,7 +11,7 @@ data class Venue(
 
     @SerializedName("name") val name: String,
 
-    @SerializedName("address") val address: String,
+    @SerializedName("address") val address: String?,
 
     @SerializedName("city") val city: String,
 
@@ -21,5 +21,5 @@ data class Venue(
 
     @SerializedName("image") val image: String,
 
-) {
+    ) {
 }
