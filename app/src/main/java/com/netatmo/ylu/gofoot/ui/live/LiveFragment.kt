@@ -9,16 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.netatmo.ylu.gofoot.R
-import com.netatmo.ylu.gofoot.repository.FixturesViewModel
 import com.netatmo.ylu.gofoot.ui.fixtures.FixturesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LiveFragment : Fragment() {
 
-    val viewModel: FixturesViewModel by activityViewModels()
+    val viewModel: LiveViewModel by activityViewModels()
 
     companion object {
         fun getInstance(): Fragment {
@@ -32,9 +33,21 @@ class LiveFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.activity_fixtures, container, false)
+        val swipeRefreshLayout =
+            rootView.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
+        val filterButton = rootView.findViewById<FloatingActionButton>(R.id.filter_button)
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.updateLiveFixtures()
+        }
+        viewModel.loading.observe(this) {
+            swipeRefreshLayout.isRefreshing = it
+        }
+        filterButton.setOnClickListener {
+            viewModel.toggleFiltered()
+        }
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recycler_view_fixtures)
         rootView.findViewById<ShimmerFrameLayout>(R.id.placeholder_shimmer_container).apply {
-            viewModel.loading.observe(this@LiveFragment, { loading ->
+            viewModel.shimmerState.observe(this@LiveFragment, { loading ->
                 if (loading) {
                     startShimmer()
                 } else {
@@ -52,8 +65,7 @@ class LiveFragment : Fragment() {
         }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.liveData.observe(this, { t -> adapter.list = t })
-        viewModel.liveUpdate()
+        viewModel.resultFlow.observe(this, { t -> adapter.list = t })
         return rootView
     }
 }

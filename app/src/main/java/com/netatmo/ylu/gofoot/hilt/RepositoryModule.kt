@@ -1,6 +1,7 @@
 package com.netatmo.ylu.gofoot.hilt
 
 import android.content.Context
+import com.netatmo.ylu.gofoot.repository.FixturesRepository
 import com.netatmo.ylu.gofoot.repository.LeagueRepository
 import com.netatmo.ylu.gofoot.repository.PlayerRepository
 import com.netatmo.ylu.gofoot.repository.TeamRepository
@@ -15,6 +16,13 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 @Module
 @InstallIn(ActivityRetainedComponent::class)
 class RepositoryModule {
+
+    @Provides
+    fun provideFixturesRepository(
+        requestClient: RequestClient
+    ): FixturesRepository {
+        return FixturesRepository(requestClient)
+    }
 
     @Provides
     fun provideLeagueRepository(
