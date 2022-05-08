@@ -17,7 +17,8 @@ import java.io.IOException
 class PlayerRemoteMediator(
     private val teamId: Int,
     private val season: Int,
-    private val database: GoFootRoomDatabase
+    private val database: GoFootRoomDatabase,
+    private val requestClient: RequestClient
 ) : RemoteMediator<Int, Player>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -59,7 +60,7 @@ class PlayerRemoteMediator(
             }
 
             Log.v("PlayerRemoteMediator", "making request, loadkey $loadKey")
-            val response = RequestClient.getPlayersByTeamId(teamId, season, loadKey ?: 1)
+            val response = requestClient.getPlayersByTeamId(teamId, season, loadKey ?: 1)
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {

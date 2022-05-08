@@ -9,7 +9,8 @@ import com.netatmo.ylu.gofoot.room.player.PlayerDao
 class PlayerPagingSource(
     private val teamId: Int,
     private val season: Int,
-    private val playerDao: PlayerDao
+    private val playerDao: PlayerDao,
+    private val requestClient: RequestClient
 ) : PagingSource<Int, Player>() {
     companion object {
         const val STARTING_PAGE_INDEX = 1
@@ -26,7 +27,7 @@ class PlayerPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Player> {
         val position = params.key ?: STARTING_PAGE_INDEX
         val response =
-            RequestClient.getPlayersByTeamId(id = teamId, season = season, paging = position)
+            requestClient.getPlayersByTeamId(id = teamId, season = season, paging = position)
         val nextKey = response.paging?.let {
             if (it.total == it.current) {
                 null

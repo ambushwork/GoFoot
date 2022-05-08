@@ -5,10 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.netatmo.ylu.gofoot.model.Country
 import com.netatmo.ylu.gofoot.retrofit.RequestClient
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CountriesViewModel : ViewModel() {
-    
+@HiltViewModel
+class CountriesViewModel @Inject constructor(private val requestClient: RequestClient) :
+    ViewModel() {
+
     val countryLiveData: MutableLiveData<List<Country>> by lazy {
         MutableLiveData<List<Country>>().also {
             load()
@@ -25,7 +29,7 @@ class CountriesViewModel : ViewModel() {
 
     private fun load() {
         viewModelScope.launch {
-            val body = RequestClient.getCountry("england")
+            val body = requestClient.getCountry("england")
             setValue(body.response)
         }
     }

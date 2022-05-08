@@ -8,7 +8,7 @@ import com.netatmo.ylu.gofoot.room.league.LeagueDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class LeagueRepository(private val dao: LeagueDao) {
+class LeagueRepository(private val dao: LeagueDao, private val requestClient: RequestClient) {
 
     val allLeagues = dao.getAllLeaguesLiveData()
 
@@ -28,7 +28,7 @@ class LeagueRepository(private val dao: LeagueDao) {
     suspend fun updateAll() {
         withContext(Dispatchers.IO) {
             if (dao.getAllLeagues().isNullOrEmpty()) {
-                val result = RequestClient.getAllLeague()
+                val result = requestClient.getAllLeague()
                 dao.insertLeagues(result.response.map {
                     it.league
                 })

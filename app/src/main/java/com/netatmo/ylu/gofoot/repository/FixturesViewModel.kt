@@ -8,9 +8,13 @@ import com.netatmo.ylu.gofoot.retrofit.RequestClient
 import com.netatmo.ylu.gofoot.util.getCurrentDate
 import com.netatmo.ylu.gofoot.util.getCurrentSeason
 import com.netatmo.ylu.gofoot.util.getFutureDate
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FixturesViewModel : ViewModel() {
+@HiltViewModel
+class FixturesViewModel @Inject constructor(private val requestClient: RequestClient) :
+    ViewModel() {
     val liveData: MutableLiveData<List<FixtureResponse>> by lazy {
         MutableLiveData<List<FixtureResponse>>()
     }
@@ -22,7 +26,7 @@ class FixturesViewModel : ViewModel() {
     fun liveUpdate() {
         loading.value = true
         viewModelScope.launch {
-            liveData.value = RequestClient.getLiveFixtures().response
+            liveData.value = requestClient.getLiveFixtures().response
             loading.value = false
         }
     }
@@ -30,7 +34,7 @@ class FixturesViewModel : ViewModel() {
     fun getIncomingFixtures(teamId: Int) {
         viewModelScope.launch {
             liveData.value =
-                RequestClient.getFixtures(
+                requestClient.getFixtures(
                     teamId,
                     getCurrentSeason(),
                     getCurrentDate(),

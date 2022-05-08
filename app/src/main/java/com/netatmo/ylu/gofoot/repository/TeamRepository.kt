@@ -8,7 +8,10 @@ import com.netatmo.ylu.gofoot.model.standing.Standing
 import com.netatmo.ylu.gofoot.retrofit.RequestClient
 import com.netatmo.ylu.gofoot.room.TeamDao
 
-class TeamRepository(private val teamDao: TeamDao) {
+class TeamRepository(
+    private val teamDao: TeamDao,
+    private val requestClient: RequestClient
+) {
 
     fun getTeamsByLeagueId(id: String): LiveData<List<TeamInfo>> {
         return teamDao.getTeamsByLeagueId(id)
@@ -21,7 +24,7 @@ class TeamRepository(private val teamDao: TeamDao) {
     @Suppress
     @WorkerThread
     suspend fun updateStandings(leagueId: Int, season: Int): List<Standing> {
-        return RequestClient.getStandings(
+        return requestClient.getStandings(
             season = season,
             league = leagueId
         ).response.firstOrNull()?.league?.standings?.firstOrNull() ?: emptyList()
@@ -30,7 +33,7 @@ class TeamRepository(private val teamDao: TeamDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun updateTeam(leagueId: String, season: Int) {
-        val result = RequestClient.getTeamByLeagueSeason(leagueId, season)
+        val result = requestClient.getTeamByLeagueSeason(leagueId, season)
         teamDao.insertTeamAndVenue(
             result.response.map { it.team.copy(leagueId = leagueId) },
             result.response.map { it.venue })
@@ -38,5 +41,6 @@ class TeamRepository(private val teamDao: TeamDao) {
             TeamVenueCrossRef(it.team.teamId, it.venue.venueId)
         })
     }
+
 
 }

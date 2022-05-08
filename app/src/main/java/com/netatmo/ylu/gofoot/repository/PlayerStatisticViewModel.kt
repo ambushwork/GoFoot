@@ -6,9 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.netatmo.ylu.gofoot.model.PlayerResponse
 import com.netatmo.ylu.gofoot.retrofit.RequestClient
 import com.netatmo.ylu.gofoot.util.getCurrentSeason
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PlayerStatisticViewModel : ViewModel() {
+@HiltViewModel
+class PlayerStatisticViewModel @Inject constructor(private val requestClient: RequestClient) :
+    ViewModel() {
     val liveData: MutableLiveData<PlayerResponse> by lazy {
         MutableLiveData()
     }
@@ -16,7 +20,7 @@ class PlayerStatisticViewModel : ViewModel() {
     fun getPlayer(playerId: Int) {
         viewModelScope.launch {
             liveData.value =
-                RequestClient.getPlayerId(playerId, getCurrentSeason()).response.firstOrNull()
+                requestClient.getPlayerId(playerId, getCurrentSeason()).response.firstOrNull()
         }
     }
 

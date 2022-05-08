@@ -5,9 +5,13 @@ import androidx.paging.*
 import com.netatmo.ylu.gofoot.model.Player
 import com.netatmo.ylu.gofoot.paging.PlayerPagingSource
 import com.netatmo.ylu.gofoot.paging.PlayerRemoteMediator
+import com.netatmo.ylu.gofoot.retrofit.RequestClient
 import com.netatmo.ylu.gofoot.room.GoFootRoomDatabase
 
-class PlayerRepository(private val database: GoFootRoomDatabase) {
+class PlayerRepository(
+    private val database: GoFootRoomDatabase,
+    private val requestClient: RequestClient
+) {
 
     companion object {
         private const val SEASON = 2021
@@ -35,7 +39,7 @@ class PlayerRepository(private val database: GoFootRoomDatabase) {
                 pageSize = PlayerPagingSource.NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            remoteMediator = PlayerRemoteMediator(teamId, SEASON, database)
+            remoteMediator = PlayerRemoteMediator(teamId, SEASON, database, requestClient)
             /* pagingSourceFactory = {
 
              }*/

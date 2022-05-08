@@ -1,15 +1,19 @@
 package com.netatmo.ylu.gofoot.retrofit
 
+import android.content.Context
+import android.util.Log
 import com.netatmo.ylu.gofoot.constants.*
 import com.netatmo.ylu.gofoot.model.*
 import com.netatmo.ylu.gofoot.model.fixture.FixtureResponse
 import com.netatmo.ylu.gofoot.model.standing.StandingsResponse
-import okhttp3.OkHttpClient
+import dagger.hilt.android.qualifiers.ApplicationContext
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
-object RequestClient {
+class RequestClient(@ApplicationContext val context: Context) {
     private val service: FootApiService
     private val headers by lazy {
         HashMap<String, String>().apply {
@@ -18,16 +22,47 @@ object RequestClient {
         }
     }
 
+    companion object {
+        const val CACHE_CONTROL_HEADER = "Cache-Control"
+        const val CACHE_CONTROL_NO_CACHE = "no-cache"
+    }
+
     init {
+
+        val cacheSize = (5.times(1024).times(1024)).toLong()
+        val myCache = Cache(context.cacheDir, cacheSize)
         val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
+        val okHttpClient = OkHttpClient.Builder()
+            .cache(myCache)
+            .addNetworkInterceptor(CacheInterceptor())
+            .addInterceptor(interceptor)
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(client)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         service = retrofit.create(FootApiService::class.java)
+    }
+
+    class CacheInterceptor : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val request = chain.request()
+            val originalResponse = chain.proceed(request)
+            Log.i("CacheInterceptor", "Request proceeded, not from cache!")
+            val shouldUseCache = request.header(CACHE_CONTROL_HEADER) != CACHE_CONTROL_NO_CACHE
+            if (!shouldUseCache) return originalResponse
+
+            val cacheControl = CacheControl.Builder()
+                .maxAge(10, TimeUnit.MINUTES)
+                .build()
+
+            return originalResponse.newBuilder()
+                .header(CACHE_CONTROL_HEADER, cacheControl.toString())
+                .build()
+        }
     }
 
     suspend fun getCountry(name: String): Body<Country> = service.getCountries(headers, name)

@@ -6,18 +6,19 @@ import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.netatmo.ylu.gofoot.R
-import com.netatmo.ylu.gofoot.repository.TeamRepository
 import com.netatmo.ylu.gofoot.repository.TeamsViewModel
-import com.netatmo.ylu.gofoot.room.GoFootRoomDatabase
+import javax.inject.Inject
 
 class TeamsActivity : AppCompatActivity() {
 
 
     private lateinit var progressBar: ProgressBar
+
+    @Inject
+    lateinit var viewModel: TeamsViewModel
 
     companion object {
         private const val SEASON = 2021
@@ -34,9 +35,6 @@ class TeamsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teams)
         val leagueId = intent.extras?.getString(BUNDLE_LEAGUE_ID) ?: error("Null league id!")
-        val repo = TeamRepository(GoFootRoomDatabase.getDatabase(this).teamDao())
-        val viewModel =
-            ViewModelProvider(this, TeamsViewModel.FACTORY(repo))[TeamsViewModel::class.java]
         progressBar = findViewById(R.id.progress_bar)
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_teams)
         val adapter = TeamsAdapter()

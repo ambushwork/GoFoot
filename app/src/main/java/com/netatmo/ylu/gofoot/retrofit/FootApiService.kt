@@ -5,9 +5,14 @@ import com.netatmo.ylu.gofoot.model.fixture.FixtureResponse
 import com.netatmo.ylu.gofoot.model.standing.StandingsResponse
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface FootApiService {
+    companion object {
+        const val CACHE_CONTROL_HEADER = "Cache-Control"
+        const val CACHE_CONTROL_NO_CACHE = "no-cache"
+    }
 
     @GET("countries")
     suspend fun getCountries(
@@ -50,6 +55,7 @@ interface FootApiService {
     ): Body<TeamInfo>
 
     @GET("fixtures")
+    @Headers("$CACHE_CONTROL_HEADER: $CACHE_CONTROL_NO_CACHE")
     suspend fun getFixturesByLive(
         @HeaderMap headers: Map<String, String>,
         @Query("live") live: String
